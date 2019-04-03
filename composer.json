@@ -1,17 +1,18 @@
 {
-  "name" : "nicolasbringas/iab-consent",
-  "description": "IAB Consent String Parsing Library for PHP",
-  "type": "project",
-  "license": "MIT",
-  "keywords": ["IAB", "consent", "consent string"],
-  "autoload": {
-    "psr-4": {"Core\\":"src/"}
-  },
-  "prefer-stable": true,
-  "authors": [
-    {
-      "name" : "Nicolas Bringas",
-      "email": "nikkolaz@gmail.com"
-    }
-  ]
+    "name": "nicolasbringas/iab-consent",
+    "description": "PHP IAB Consent String Parsing Library",
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Nicolas Bringas",
+            "email": "nikkolaz@gmail.com"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "IABConsent\\": "src/"
+        }
+    },
+    "require": {}
 }
