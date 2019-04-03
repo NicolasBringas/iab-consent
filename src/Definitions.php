@@ -2,12 +2,15 @@
 
 namespace IABConsent;
 
-class Definitions {
-	public static function getVersionNumBits() {
+class Definitions
+{
+	public static function getVersionNumBits()
+	{
 		return 6;
 	}
 
-	public static function getVendorVersionMap() {
+	public static function getVendorVersionMap()
+	{
 		return [
 			1 =>
 				[

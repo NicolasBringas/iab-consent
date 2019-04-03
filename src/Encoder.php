@@ -2,15 +2,20 @@
 
 namespace IABConsent;
 
-class Encoder {
+class Encoder
+{
 	/**
 	 * Encode a list of vendor IDs into bits
 	 *
-	 * @param int $maxVendorId        Highest vendor ID in the vendor list
+	 * @param int $maxVendorId Highest vendor ID in the vendor list
 	 * @param array $allowedVendorIds Vendors that the user has given consent to
 	 * @return string
 	 */
-	public static function encodeVendorIdsToBits($maxVendorId, $allowedVendorIds = []) {
+	public static function encodeVendorIdsToBits($maxVendorId, $allowedVendorIds = [])
+	{
+		if (is_null($allowedVendorIds)) {
+			$allowedVendorIds = [];
+		}
 		$vendorString = "";
 		for ($id = 1; $id <= $maxVendorId; $id++) {
 			$vendorString .= (array_search($id, $allowedVendorIds) !== false) ? '1' : '0';
@@ -26,7 +31,11 @@ class Encoder {
 	 * @param array $allowedPurposeIds List of purpose IDs that the user has given consent to
 	 * @return string
 	 */
-	public static function encodePurposeIdsToBits($purposes, $allowedPurposeIds = []) {
+	public static function encodePurposeIdsToBits($purposes, $allowedPurposeIds = [])
+	{
+		if (is_null($allowedPurposeIds)) {
+			$allowedPurposeIds = [];
+		}
 		$maxPurposeId = 0;
 		for ($i = 0; $i < count($purposes); $i++) {
 			$maxPurposeId = max([$maxPurposeId, $purposes[$i]['id']]);
@@ -49,8 +58,12 @@ class Encoder {
 	 * @param array $allowedVendorIds List of vendor IDs that the user has given consent to
 	 * @return array
 	 */
-	public static function convertVendorsToRanges($vendors, $allowedVendorIds) {
+	public static function convertVendorsToRanges($vendors, $allowedVendorIds)
+	{
 		$range = $ranges = [];
+		if (is_null($allowedVendorIds)) {
+			$allowedVendorIds = [];
+		}
 		$idsInList = array_column($vendors, 'id');
 		for ($index = 0; $index < count($vendors); $index++) {
 			$id = $vendors[$index]['id'];
@@ -66,15 +79,15 @@ class Encoder {
 				)
 				&& count($range)
 			) {
-      			$startVendorId = array_shift($range);
-      			$endVendorId = array_pop($range);
-      			$range = [];
+				$startVendorId = array_shift($range);
+				$endVendorId = array_pop($range);
+				$range = [];
 				$ranges[] = [
 					'isRange' => is_int($endVendorId),
 					'startVendorId' => $startVendorId,
 					'endVendorId' => $endVendorId,
 				];
-    		}
+			}
 		}
 
 		return $ranges;
@@ -86,7 +99,8 @@ class Encoder {
 	 * @param array $vendors
 	 * @return int
 	 */
-	public static function getMaxVendorId($vendors) {
+	public static function getMaxVendorId($vendors)
+	{
 		$maxVendorId = 0;
 		foreach ($vendors as $vendor) {
 			$vendor['id'] = (int)$vendor['id'];
@@ -104,7 +118,8 @@ class Encoder {
 	 * @throws \Exception
 	 * @return string
 	 */
-	public static function encodeConsentString($consentData) {
+	public static function encodeConsentString($consentData)
+	{
 		$maxVendorId = $consentData['maxVendorId'];
 		$allowedPurposeIds = $consentData['allowedPurposeIds'];
 		$allowedVendorIds = $consentData['allowedVendorIds'];

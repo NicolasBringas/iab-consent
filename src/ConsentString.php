@@ -5,17 +5,18 @@ class ConsentString {
 
 	const consentLanguageRegexp = '/^[a-z]{2}$/';
 
-	private $created;
-	private $lastUpdated;
-	private $version = 1;
-	private $vendorList = null;
-	private $vendorListVersion = null;
-	private $cmpId = null;
-	private $cmpVersion = null;
-	private $consentScreen = null;
-	private $consentLanguage = null;
-	private $allowedPurposeIds = [];
-	private $allowedVendorIds = [];
+	public $created;
+	public $lastUpdated;
+	public $version = 1;
+	public $vendorList = null;
+	public $vendorListVersion = null;
+	public $cmpId = null;
+	public $cmpVersion = null;
+	public $consentScreen = null;
+	public $consentLanguage = null;
+	public $allowedPurposeIds = [];
+	public $allowedVendorIds = [];
+	public $maxVendorId;
 
 	/**
 	 * ConsentString constructor.
@@ -26,7 +27,7 @@ class ConsentString {
 		if (! is_null($baseString)) {
 			$params = Decoder::decodeConsentString($baseString);
 			foreach ($params as $key => $value) {
-				if (isset($this->{$key})) {
+				if (property_exists($this, $key)) {
 					$this->{$key} = $value;
 				}
 			}
@@ -137,6 +138,7 @@ class ConsentString {
 			'cmpVersion' => $this->cmpVersion,
 			'consentScreen' => $this->consentScreen,
 			'vendorListVersion' => $this->vendorListVersion,
+			'vendorList' => $this->vendorList,
 		]);
 	}
 

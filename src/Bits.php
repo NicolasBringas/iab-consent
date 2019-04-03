@@ -2,7 +2,8 @@
 
 namespace IABConsent;
 
-class Bits {
+class Bits
+{
 	/**
 	 * @param $bitString
 	 * @return array
@@ -113,7 +114,8 @@ class Bits {
 	 * @param $numBits
 	 * @return string
 	 */
-	private static function encodeIntToBits($number, $numBits) {
+	private static function encodeIntToBits($number, $numBits)
+	{
 		$bitString = "";
 		if (is_numeric($number)) {
 			$bitString = decbin(intval($number, 10));
@@ -134,7 +136,8 @@ class Bits {
 	 * @param $value
 	 * @return string
 	 */
-	private static function encodeBoolToBits($value) {
+	private static function encodeBoolToBits($value)
+	{
 		return self::encodeIntToBits($value === true ? 1 : 0, 1);
 	}
 
@@ -143,7 +146,8 @@ class Bits {
 	 * @param $numBits
 	 * @return string
 	 */
-	private static function encodeDateToBits($date, $numBits) {
+	private static function encodeDateToBits($date, $numBits)
+	{
 		if ($date instanceof \DateTime) {
 			return self::encodeIntToBits($date->getTimestamp() * 10, $numBits);
 		}
@@ -155,7 +159,8 @@ class Bits {
 	 * @param $numBits
 	 * @return string
 	 */
-	private static function encodeLetterToBits($letter, $numBits) {
+	private static function encodeLetterToBits($letter, $numBits)
+	{
 		$upperLetter = strtoupper($letter);
 		return self::encodeIntToBits(ord($upperLetter[0]) - 65, $numBits);
 	}
@@ -165,8 +170,9 @@ class Bits {
 	 * @param int $numBits
 	 * @return string
 	 */
-	private static function encodeLanguageToBits($language, $numBits = 12) {
-		return self::encodeLetterToBits(substr($language, 0 , 1), $numBits / 2) . self::encodeLetterToBits(substr($language, 1), $numBits / 2);
+	private static function encodeLanguageToBits($language, $numBits = 12)
+	{
+		return self::encodeLetterToBits(substr($language, 0, 1), $numBits / 2) . self::encodeLetterToBits(substr($language, 1), $numBits / 2);
 	}
 
 	/**
@@ -225,7 +231,8 @@ class Bits {
 	 * @return string
 	 * @throws \Exception
 	 */
-	private static function encodeField($input, $field) {
+	private static function encodeField($input, $field)
+	{
 		$name = $field['name'];
 		$type = $field['type'];
 		$numBits = $field['numBits'];
@@ -252,16 +259,16 @@ class Bits {
 			case 'bits':
 				return substr(self::padRight($fieldValue, $bitCount - strlen($fieldValue)), 0, $bitCount);
 			case 'list':
-				$reduce = function($acc, $listValue) use ($field) {
+				$reduce = function ($acc, $listValue) use ($field) {
 					$ret = self::encodeFields($listValue, $field['fields']);
 					return $acc . $ret;
 				};
 				/** @noinspection PhpParamsInspection */
 				return array_reduce($fieldValue, $reduce, '');
-    		case 'language':
-      			return self::encodeLanguageToBits($fieldValue, $bitCount);
-    		default:
-      			throw new \Exception("ConsentString - Unknown field type {$type} for encoding");
+			case 'language':
+				return self::encodeLanguageToBits($fieldValue, $bitCount);
+			default:
+				throw new \Exception("ConsentString - Unknown field type {$type} for encoding");
 		}
 	}
 
@@ -270,8 +277,9 @@ class Bits {
 	 * @param $fields
 	 * @return string
 	 */
-	private static function encodeFields($input, $fields) {
-		$reduce = function($acc, $field) use ($input) {
+	private static function encodeFields($input, $fields)
+	{
+		$reduce = function ($acc, $field) use ($input) {
 			return $acc . self::encodeField($input, $field);
 		};
 
@@ -284,7 +292,8 @@ class Bits {
 	 * @return string
 	 * @throws \Exception
 	 */
-	private static function encodeDataToBits($data, $definitionMap) {
+	private static function encodeDataToBits($data, $definitionMap)
+	{
 		$version = $data['version'];
 		if (! is_int($version)) {
 			throw new \Exception("ConsentString - No version field to encode");
@@ -302,7 +311,8 @@ class Bits {
 	 * @return string
 	 * @throws \Exception
 	 */
-	public static function encodeToBase64($data, $definitionMap = null) {
+	public static function encodeToBase64($data, $definitionMap = null)
+	{
 		if (is_null($definitionMap)) {
 			$definitionMap = Definitions::getVendorVersionMap();
 		}
