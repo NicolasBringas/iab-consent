@@ -3,7 +3,7 @@
     "description": "PHP IAB Consent String Parsing Library",
     "keywords" : ["IAB", "consent", "consent string"],
     "type": "library",
-    "license": "",
+    "license": "MIT",
     "authors": [
         {
             "name": "Nicolas Bringas",
