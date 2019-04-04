@@ -1,4 +1,5 @@
 <?php
+
 use PHPUnit\Framework\TestCase;
 use IABConsent\Bits;
 
@@ -7,7 +8,8 @@ final class BitsTest extends TestCase
 	/**
 	 * @throws ReflectionException
 	 */
-	public function testEncodeIntToBits() {
+	public function testEncodeIntToBits()
+	{
 		// encodes an integer to a bit string
 		$object = new Bits();
 		$reflector = new ReflectionClass('IABConsent\Bits');
@@ -25,7 +27,8 @@ final class BitsTest extends TestCase
 	/**
 	 * @throws ReflectionException
 	 */
-	public function testEncodeBoolToBits() {
+	public function testEncodeBoolToBits()
+	{
 		// encodes a "true" boolean to a bit string
 		$object = new Bits();
 		$reflector = new ReflectionClass('IABConsent\Bits');
@@ -41,7 +44,8 @@ final class BitsTest extends TestCase
 	/**
 	 * @throws Exception
 	 */
-	public function testEncodeDateToBits() {
+	public function testEncodeDateToBits()
+	{
 		$aDate = new \DateTime();
 		$aDate->setTimestamp(1512661975);
 		$object = new Bits();
@@ -59,7 +63,8 @@ final class BitsTest extends TestCase
 	/**
 	 * @throws ReflectionException
 	 */
-	public function testEncodeLetterToBits() {
+	public function testEncodeLetterToBits()
+	{
 		$object = new Bits();
 		$reflector = new ReflectionClass('IABConsent\Bits');
 		$method = $reflector->getMethod('encodeLetterToBits');
@@ -77,7 +82,8 @@ final class BitsTest extends TestCase
 	/**
 	 * @throws ReflectionException
 	 */
-	public function testEncodeLanguageToBits() {
+	public function testEncodeLanguageToBits()
+	{
 		$object = new Bits();
 		$reflector = new ReflectionClass('IABConsent\Bits');
 		$method = $reflector->getMethod('encodeLanguageToBits');
@@ -92,17 +98,18 @@ final class BitsTest extends TestCase
 	/**
 	 * @throws ReflectionException
 	 */
-	public function testDecodeBitsToInt() {
+	public function testDecodeBitsToInt()
+	{
 		// decodes a bit string to original encoded value
 		$object = new Bits();
 		$reflector = new ReflectionClass('IABConsent\Bits');
-		$method_decode = $reflector->getMethod('decodeBitsToInt');
-		$method_decode->setAccessible(true);
-		$method_encode = $reflector->getMethod('encodeIntToBits');
-		$method_encode->setAccessible(true);
+		$methodDecode = $reflector->getMethod('decodeBitsToInt');
+		$methodDecode->setAccessible(true);
+		$methodEncode = $reflector->getMethod('encodeIntToBits');
+		$methodEncode->setAccessible(true);
 
-		$bitString = $method_encode->invokeArgs($object, [123]);
-		$decoded = $method_decode->invokeArgs($object, [$bitString, 0, strlen($bitString)]);
+		$bitString = $methodEncode->invokeArgs($object, [123]);
+		$decoded = $methodDecode->invokeArgs($object, [$bitString, 0, strlen($bitString)]);
 
 		$this->assertEquals(123, $decoded);
 	}
@@ -110,17 +117,18 @@ final class BitsTest extends TestCase
 	/**
 	 * @throws Exception
 	 */
-	public function testDecodeBitsToDate() {
+	public function testDecodeBitsToDate()
+	{
 		// decodes a bit string to original encoded value
 		$object = new Bits();
 		$reflector = new ReflectionClass('IABConsent\Bits');
-		$method_decode = $reflector->getMethod('decodeBitsToDate');
-		$method_decode->setAccessible(true);
-		$method_encode = $reflector->getMethod('encodeDateToBits');
-		$method_encode->setAccessible(true);
+		$methodDecode = $reflector->getMethod('decodeBitsToDate');
+		$methodDecode->setAccessible(true);
+		$methodEncode = $reflector->getMethod('encodeDateToBits');
+		$methodEncode->setAccessible(true);
 		$aDate = new DateTime('2018-07-15');
-		$bitString = $method_encode->invokeArgs($object, [$aDate]);
-		$decoded = $method_decode->invokeArgs($object, [$bitString, 0, strlen($bitString)]);
+		$bitString = $methodEncode->invokeArgs($object, [$aDate]);
+		$decoded = $methodDecode->invokeArgs($object, [$bitString, 0, strlen($bitString)]);
 
 		$this->assertEquals($aDate->getTimestamp(), $decoded->getTimestamp());
 	}
@@ -128,66 +136,70 @@ final class BitsTest extends TestCase
 	/**
 	 * @throws ReflectionException
 	 */
-	public function testDecodeBitsToBool() {
+	public function testDecodeBitsToBool()
+	{
 		$object = new Bits();
 		$reflector = new ReflectionClass('IABConsent\Bits');
-		$method_decode = $reflector->getMethod('decodeBitsToBool');
-		$method_decode->setAccessible(true);
-		$method_encode = $reflector->getMethod('encodeBoolToBits');
-		$method_encode->setAccessible(true);
+		$methodDecode = $reflector->getMethod('decodeBitsToBool');
+		$methodDecode->setAccessible(true);
+		$methodEncode = $reflector->getMethod('encodeBoolToBits');
+		$methodEncode->setAccessible(true);
 		// decodes a bit string to original encoded "true" value
-		$bitString = $method_encode->invokeArgs($object, [true]);
-		$decoded = $method_decode->invokeArgs($object, [$bitString, 0, strlen($bitString)]);
+		$bitString = $methodEncode->invokeArgs($object, [true]);
+		$decoded = $methodDecode->invokeArgs($object, [$bitString, 0, strlen($bitString)]);
 		$this->assertEquals(true, $decoded);
 		// decodes a bit string to original encoded "false" value
-		$bitString = $method_encode->invokeArgs($object, [false]);
-		$decoded = $method_decode->invokeArgs($object, [$bitString, 0, strlen($bitString)]);
+		$bitString = $methodEncode->invokeArgs($object, [false]);
+		$decoded = $methodDecode->invokeArgs($object, [$bitString, 0, strlen($bitString)]);
 		$this->assertEquals(false, $decoded);
 	}
 
 	/**
 	 * @throws ReflectionException
 	 */
-	public function testDecodeBitsToLetter() {
+	public function testDecodeBitsToLetter()
+	{
 		$object = new Bits();
 		$reflector = new ReflectionClass('IABConsent\Bits');
-		$method_decode = $reflector->getMethod('decodeBitsToLetter');
-		$method_decode->setAccessible(true);
-		$method_encode = $reflector->getMethod('encodeLetterToBits');
-		$method_encode->setAccessible(true);
+		$methodDecode = $reflector->getMethod('decodeBitsToLetter');
+		$methodDecode->setAccessible(true);
+		$methodEncode = $reflector->getMethod('encodeLetterToBits');
+		$methodEncode->setAccessible(true);
 		// decodes a bit string to a letter
-		$this->assertEquals('a', $method_decode->invokeArgs($object, ['000000']));
-		$this->assertEquals('k', $method_decode->invokeArgs($object, ['001010']));
-		$this->assertEquals('z', $method_decode->invokeArgs($object, ['011001']));
+		$this->assertEquals('a', $methodDecode->invokeArgs($object, ['000000']));
+		$this->assertEquals('k', $methodDecode->invokeArgs($object, ['001010']));
+		$this->assertEquals('z', $methodDecode->invokeArgs($object, ['011001']));
 		// decodes a bit string to its original value
-		$bitString = $method_encode->invokeArgs($object, ['z', 6]);
-		$decoded = $method_decode->invokeArgs($object, [$bitString]);
+		$bitString = $methodEncode->invokeArgs($object, ['z', 6]);
+		$decoded = $methodDecode->invokeArgs($object, [$bitString]);
 		$this->assertEquals('z', $decoded);
 	}
 
 	/**
 	 * @throws ReflectionException
 	 */
-	public function testDecodeBitsToLanguage() {
+	public function testDecodeBitsToLanguage()
+	{
 		$object = new Bits();
 		$reflector = new ReflectionClass('IABConsent\Bits');
-		$method_decode = $reflector->getMethod('decodeBitsToLanguage');
-		$method_decode->setAccessible(true);
-		$method_encode = $reflector->getMethod('encodeLanguageToBits');
-		$method_encode->setAccessible(true);
+		$methodDecode = $reflector->getMethod('decodeBitsToLanguage');
+		$methodDecode->setAccessible(true);
+		$methodEncode = $reflector->getMethod('encodeLanguageToBits');
+		$methodEncode->setAccessible(true);
 		// decodes a bit string to a language code
-		$this->assertEquals('en', $method_decode->invokeArgs($object, ['000100001101', 0, 12]));
-		$this->assertEquals('fr', $method_decode->invokeArgs($object, ['000101010001', 0, 12]));
+		$this->assertEquals('en', $methodDecode->invokeArgs($object, ['000100001101', 0, 12]));
+		$this->assertEquals('fr', $methodDecode->invokeArgs($object, ['000101010001', 0, 12]));
 		// decodes a bit string to its original value
-		$bitString = $method_encode->invokeArgs($object, ['en', 12]);
-		$decoded = $method_decode->invokeArgs($object, [$bitString, 0, 12]);
+		$bitString = $methodEncode->invokeArgs($object, ['en', 12]);
+		$decoded = $methodDecode->invokeArgs($object, [$bitString, 0, 12]);
 		$this->assertEquals('en', $decoded);
 	}
 
 	/**
 	 * @throws Exception
 	 */
-	public function testEncodeToBase64NonExistentVersion() {
+	public function testEncodeToBase64NonExistentVersion()
+	{
 		$this->expectException('Exception');
 		$aDate = new DateTime('2018-07-15 07:00:00');
 		// fails to encode a version that does not exist
@@ -204,7 +216,8 @@ final class BitsTest extends TestCase
 	/**
 	 * @throws Exception
 	 */
-	public function testEncodeToBase64InvalidVersion() {
+	public function testEncodeToBase64InvalidVersion()
+	{
 		$this->expectException('Exception');
 		$aDate = new DateTime('2018-07-15 07:00:00');
 
@@ -223,7 +236,8 @@ final class BitsTest extends TestCase
 	/**
 	 * @throws Exception
 	 */
-	public function testDecodeFromBase64InvalidVersion() {
+	public function testDecodeFromBase64InvalidVersion()
+	{
 		$this->expectException('Exception');
 		$object = new Bits();
 		$reflector = new ReflectionClass('IABConsent\Bits');
@@ -235,7 +249,11 @@ final class BitsTest extends TestCase
 		Bits::decodeFromBase64($bitString);
 	}
 
-	public function testEncodeDecodeRanges() {
+	/**
+	 * @throws Exception
+	 */
+	public function testEncodeDecodeRanges()
+	{
 		// encodes and decodes the vendor value with ranges back to original value
 		$aDate = new DateTime('2018-07-15 07:00:00');
 		$consentData = [
