@@ -1,12 +1,14 @@
 {
     "name": "nicolasbringas/iab-consent",
     "description": "PHP IAB Consent String Parsing Library",
+    "keywords" : ["IAB", "consent", "consent string"],
     "type": "library",
-    "license": "MIT",
+    "license": "",
     "authors": [
         {
             "name": "Nicolas Bringas",
-            "email": "nikkolaz@gmail.com"
+            "email": "nikkolaz@gmail.com",
+            "role": "Developer"
         }
     ],
     "autoload": {
