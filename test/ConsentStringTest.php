@@ -40,6 +40,7 @@ final class ConsentStringTest extends TestCase
 	 * @throws Exception
 	 */
 	public function testConsentString() {
+		// gives the same result when encoding then decoding data
 		$this->initializeVendorList();
 		$this->initializeConsentData();
 
@@ -59,6 +60,7 @@ final class ConsentStringTest extends TestCase
 	 * @throws Exception
 	 */
 	public function testGetMaxVendorId() {
+		// gets the max vendor id as expected
 		$this->initializeVendorList();
 		$cs = new ConsentString();
 		$cs->setGlobalVendorList($this->vendorList);
@@ -69,6 +71,7 @@ final class ConsentStringTest extends TestCase
 	 * @throws Exception
 	 */
 	public function testGetParsedVendorConsents() {
+		// gets the parsed vendor consents
 		$this->initializeVendorList();
 		$cs = new ConsentString(self::RESULT_STRING);
 		$cs->setGlobalVendorList($this->vendorList);
@@ -87,6 +90,7 @@ final class ConsentStringTest extends TestCase
 	 * @throws Exception
 	 */
 	public function testGetParsedPurposeConsents() {
+		// gets the parsed purpose consents
 		$this->initializeVendorList();
 		$cs = new ConsentString(self::RESULT_STRING);
 		$cs->setGlobalVendorList($this->vendorList);
@@ -105,6 +109,7 @@ final class ConsentStringTest extends TestCase
 	 * @throws Exception
 	 */
 	public function testGetMetadataString() {
+		// encodes the Metadata String as expected
 		$this->initializeVendorList();
 		$this->initializeConsentData();
 		$cs = new ConsentString();
@@ -119,6 +124,7 @@ final class ConsentStringTest extends TestCase
 	 * @throws Exception
 	 */
 	public function testDecodeMetadataString() {
+		// decodes the Metadata String as expected
 		$this->initializeVendorList();
 		$this->initializeConsentData();
 		$cs = new ConsentString();
@@ -137,6 +143,7 @@ final class ConsentStringTest extends TestCase
 	 * @throws Exception
 	 */
 	public function testSetVendorAllowed() {
+		// can manipulate one vendor permission without affecting the others
 		$this->initializeVendorList();
 		$cs = new ConsentString(self::RESULT_STRING);
 		$cs->setGlobalVendorList($this->vendorList);
@@ -149,6 +156,7 @@ final class ConsentStringTest extends TestCase
 	 * @throws Exception
 	 */
 	public function testSetPurposeAllowed() {
+		// can manipulate one purpose permission without affecting the others
 		$this->initializeVendorList();
 		$cs = new ConsentString(self::RESULT_STRING);
 		$cs->setGlobalVendorList($this->vendorList);
@@ -164,6 +172,7 @@ final class ConsentStringTest extends TestCase
 	 * @throws Exception
 	 */
 	public function testSetGlobalVendorListExceptions() {
+		// throws an error if the provided vendor list does not respect the IAB format
 		$this->expectException('Exception');
 		(new ConsentString())->setGlobalVendorList([]);
 		(new ConsentString())->setGlobalVendorList([
@@ -188,6 +197,7 @@ final class ConsentStringTest extends TestCase
 	 * @throws Exception
 	 */
 	public function testSetGlobalVendorList() {
+		// does not throw an error if the provided vendor list does respect the IAB format
 		$consent = new ConsentString();
 		$consent->setGlobalVendorList([
 			'vendorListVersion' => 1,
@@ -202,6 +212,7 @@ final class ConsentStringTest extends TestCase
 	 * @throws Exception
 	 */
 	public function testGlobalListSorted() {
+		// sorts the vendor list by ID
 		$consent = new ConsentString();
 		$consent->setGlobalVendorList([
 			'vendorListVersion' => 1,

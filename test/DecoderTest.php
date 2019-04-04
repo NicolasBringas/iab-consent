@@ -10,9 +10,8 @@ final class DecoderTest extends TestCase
 	 */
 	public function testDecode()
 	{
+		// decodes the consent data from a base64-encoded string
 		$consentData = Decoder::decodeConsentString('BOQ7WlgOQ7WlgABACDENABwAAABJOACgACAAQABA');
-		$consentData2 = Decoder::decodeConsentString('BOOMzbgOOQww_AtABAFRAb-AAAsvPA2AAKACwAF4ANgAgABTADAAGMAM8AagBrgDoAOoAdwA8gB7gEMAQ4AiQBFgCPAEkAJQASwAmABQwClAKaAVYBWQCwALIAWoAuIBdAF2AL8AYgAx4BkgGUAMyAZwBngDUAGsANiAbQBvgDkgHMAc4A6QB2QDuAO-AeQB5wD3APiAfQB-gEBAIHAQUBDICHAIgAROAioCLQEZsvI');
-		$consentData3 = Decoder::decodeConsentString('BOOMzbgOOQww_AtABAFRAb-AAAsvOA3gACAAkABgArgBaAF0AMAA1gBuAH8AQQBSgCoAL8AYQBigDIAM0AaABpgDYAOYAdgA8AB6gD4AQoAiABFQCMAI6ASABIgCTAEqAJeATIBQQCiAKSAU4BVQCtAK-AWYBaQC2ALcAXMAvAC-gGAAYcAxQDGAGQAMsAZsA0ADTAGqANcAbMA4ADjAHKAOiAdQB1gDtgHgAeMA9AD2AHzAP4BAACBAEEAIbAREBEgCKQEXARhZeYA');
 		$aDate = new DateTime('2018-07-15 07:00:00');
 		$this->assertEquals([
 			'version' => 1,
@@ -27,6 +26,12 @@ final class DecoderTest extends TestCase
 			'allowedPurposeIds' => [1, 2],
 			'allowedVendorIds' => [1, 2, 4],
 		], $consentData);
+		// decodes the consent data from another base64-encoded string
+		// those two consents represent the same data, but with a different encoding:
+		// DefaultConsent of Range = true
+		$consentData2 = Decoder::decodeConsentString('BOOMzbgOOQww_AtABAFRAb-AAAsvPA2AAKACwAF4ANgAgABTADAAGMAM8AagBrgDoAOoAdwA8gB7gEMAQ4AiQBFgCPAEkAJQASwAmABQwClAKaAVYBWQCwALIAWoAuIBdAF2AL8AYgAx4BkgGUAMyAZwBngDUAGsANiAbQBvgDkgHMAc4A6QB2QDuAO-AeQB5wD3APiAfQB-gEBAIHAQUBDICHAIgAROAioCLQEZsvI');
+		// DefaultConsent of Range = false
+		$consentData3 = Decoder::decodeConsentString('BOOMzbgOOQww_AtABAFRAb-AAAsvOA3gACAAkABgArgBaAF0AMAA1gBuAH8AQQBSgCoAL8AYQBigDIAM0AaABpgDYAOYAdgA8AB6gD4AQoAiABFQCMAI6ASABIgCTAEqAJeATIBQQCiAKSAU4BVQCtAK-AWYBaQC2ALcAXMAvAC-gGAAYcAxQDGAGQAMsAZsA0ADTAGqANcAbMA4ADjAHKAOiAdQB1gDtgHgAeMA9AD2AHzAP4BAACBAEEAIbAREBEgCKQEXARhZeYA');
 
 		$compareWith = [
 			'version' => 1,

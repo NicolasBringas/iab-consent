@@ -114,18 +114,18 @@ class Bits
 	 * @param $numBits
 	 * @return string
 	 */
-	private static function encodeIntToBits($number, $numBits)
+	private static function encodeIntToBits($number, $numBits = null)
 	{
 		$bitString = "";
 		if (is_numeric($number)) {
 			$bitString = decbin(intval($number, 10));
 		}
 		// Pad the string if not filling all bits
-		if ($numBits >= strlen($bitString)) {
+		if (! is_null($numBits) && $numBits >= strlen($bitString)) {
 			$bitString = self::padLeft($bitString, $numBits - strlen($bitString));
 		}
 		// Truncate the string if longer than the number of bits
-		if (strlen($bitString) > $numBits) {
+		if (! is_null($numBits) && strlen($bitString) > $numBits) {
 			$bitString = substr($bitString, 0, $numBits);
 		}
 
@@ -146,7 +146,7 @@ class Bits
 	 * @param $numBits
 	 * @return string
 	 */
-	private static function encodeDateToBits($date, $numBits)
+	private static function encodeDateToBits($date, $numBits = null)
 	{
 		if ($date instanceof \DateTime) {
 			return self::encodeIntToBits($date->getTimestamp() * 10, $numBits);
@@ -159,7 +159,7 @@ class Bits
 	 * @param $numBits
 	 * @return string
 	 */
-	private static function encodeLetterToBits($letter, $numBits)
+	private static function encodeLetterToBits($letter, $numBits = null)
 	{
 		$upperLetter = strtoupper($letter);
 		return self::encodeIntToBits(ord($upperLetter[0]) - 65, $numBits);
@@ -221,6 +221,7 @@ class Bits
 		}
 		$fields = $definitionMap[$version]['fields'];
 		$decodedObject = self::decodeFields($bitString, $fields);
+		unset($decodedObject['newPosition']);
 
 		return $decodedObject;
 	}
@@ -408,6 +409,7 @@ class Bits
 		for ($i = 0; $i < $listEntryCount; $i++) {
 			$decodedFields = self::decodeFields($input, $field['fields'], $newPosition);
 			$newPosition = $decodedFields['newPosition'];
+			unset($decodedFields['newPosition']);
 			$fieldValue[] = $decodedFields;
 		}
 
