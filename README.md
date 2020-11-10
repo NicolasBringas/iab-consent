@@ -1,3 +1,9 @@
+# This Project is Abandoned
+
+Please refer to this project for an updated version supporting both v1.1 and v2.
+
+https://github.com/dynata/iab-tcf-php
+
 # PHP Support for GDPR
 
 This project includes a PHP Library for working with the IAB's [GDPR Transparency & Consent Framework](https://github.com/InteractiveAdvertisingBureau/GDPR-Transparency-and-Consent-Framework/blob/master/Consent%20string%20and%20vendor%20list%20formats%20v1.1%20Final.md).
